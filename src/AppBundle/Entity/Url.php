@@ -31,7 +31,7 @@ class Url
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="timeStamp", type="datetimetz")
+     * @ORM\Column(name="timeStamp", type="datetime")
      */
     private $timeStamp;
 
