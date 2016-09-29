@@ -14,14 +14,15 @@ class UrlController extends Controller
     public function listAction(Request $request)
     {
         $serializer = $this->get('serializer');
+        $urlRepository = $this->getDoctrine()->getRepository('ApiBundle:Url');
+        $allUrls = $urlRepository->findAll();
 
-        $url = new Url();
-        $url->setTinyUrl('Shmee');
-        $url->setTargetUrl('Banana');
-        $url->setTimeStamp(new \DateTime("now"));
+        $jsonContent = $serializer->serialize($allUrls, 'json');
+        $response = new Response();
+        $response->setContent($jsonContent);
+        $response->headers->set('Content-Type', 'application/json');
 
-        $jsonContent = $serializer->serialize($url, 'json');
-        return new Response($jsonContent);
+        return $response;
     }
 
     public function createAction(Request $request)
