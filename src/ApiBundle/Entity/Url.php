@@ -251,5 +251,15 @@ class Url
         return $this->redirect;
     }
 
+    /**
+     * Get unique hash
+     *
+     * @return integer
+     */
+    public function generateUniqueHash()
+    {
+        return intval(uniqid());
+    }
+
 }
 

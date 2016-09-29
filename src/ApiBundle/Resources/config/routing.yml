@@ -6,21 +6,11 @@ api_url_list~json:
 
 # Simple CRUD Actions
 api_url_create~json:
-    path:       /url
+    path:       /url/create
     defaults:   { _controller: ApiBundle:Url:create }
     methods:    [POST]
 
-# api_url_view~json:
-#     path:       /{urlId}
-#     defaults:   { _controller: ApiBundle:VersionZero/Location:view }
-#     methods:    [GET]
-
-# api_url_put~json:
-#     path:       /{urlId}
-#     defaults:   { _controller: ApiBundle:VersionZero/Location:put }
-#     methods:    [PUT]
-
-# api_url_delete~json:
-#     path:       /{urlId}
-#     defaults:   { _controller: ApiBundle:VersionZero/Location:delete }
-#     methods:    [DELETE]
+api_url_update~json:
+    path:       /url/update
+    defaults:   { _controller: ApiBundle:Url:update }
+    methods:    [PUT]

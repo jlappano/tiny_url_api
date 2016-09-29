@@ -27,14 +27,14 @@ class TinyUrlService
             $str = $this->alphabet[($num % $this->base)] . $str;
             $num = (int) ($num / $this->base);
         }
-        return $str;
+        return 'http://tiny.' . $str;
     }
 
     public function decode($str)
     {
         $num = 0;
         $len = strlen($str);
-        for ($i = 0; $i < $len; $i++) {
+        for ($i = 11; $i < $len; $i++) {
             $num = $num * $this->base + strpos($this->alphabet, $str[$i]);
         }
         return $num;
