@@ -1,0 +1,26 @@
+# List
+api_url_list~json:
+    path:       /url/list
+    defaults:   { _controller: ApiBundle:Url:list }
+    methods:    [GET]
+
+# Simple CRUD Actions
+api_url_create~json:
+    path:       /url
+    defaults:   { _controller: ApiBundle:Url:create }
+    methods:    [POST]
+
+# api_url_view~json:
+#     path:       /{urlId}
+#     defaults:   { _controller: ApiBundle:VersionZero/Location:view }
+#     methods:    [GET]
+
+# api_url_put~json:
+#     path:       /{urlId}
+#     defaults:   { _controller: ApiBundle:VersionZero/Location:put }
+#     methods:    [PUT]
+
+# api_url_delete~json:
+#     path:       /{urlId}
+#     defaults:   { _controller: ApiBundle:VersionZero/Location:delete }
+#     methods:    [DELETE]

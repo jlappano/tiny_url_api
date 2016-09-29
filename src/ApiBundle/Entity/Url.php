@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Url
  *
  * @ORM\Table(name="url")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\UrlRepository")
+ * @ORM\Entity(repositoryClass="ApiBundle\Repository\UrlRepository")
  */
 class Url
 {
