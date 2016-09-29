@@ -3,6 +3,8 @@
 namespace ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+
 
 /**
  * Url
@@ -24,30 +26,52 @@ class Url
     /**
      * @var string
      *
-     * @ORM\Column(name="tinyUrl", type="string", length=255)
+     * @Groups({"listGroup"})
+     * @ORM\Column(name="tinyDesktopUrl", type="string", length=255)
      */
     private $tinyUrl;
 
     /**
      * @var \DateTime
      *
+     * @Groups({"listGroup"})
      * @ORM\Column(name="timeStamp", type="datetime")
      */
     private $timeStamp;
 
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="targetUrl", type="string", length=255)
+     * @ORM\Column(name="hash", type="integer")
      */
-    private $targetUrl;
+    private $hash;
 
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(name="redirectCount", type="integer", nullable=true)
+     * @ORM\Column(name="targetDesktopUrl", type="string", length=255, nullable=true)
      */
-    private $redirectCount;
+    private $targetDesktopUrl;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="targetTabletUrl", type="string", length=255, nullable=true)
+     */
+    private $targetTabletUrl;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="targetMobileUrl", type="string", length=255, nullable=true)
+     */
+    private $targetMobileUrl;
+
+    /**
+     * @Groups({"listGroup"})
+     * @ORM\OneToOne(targetEntity="Redirect", mappedBy="url")
+     **/
+    private $redirect;
 
 
     /**
@@ -109,51 +133,123 @@ class Url
     }
 
     /**
-     * Set targetUrl
+     * Set hash
      *
-     * @param string $targetUrl
+     * @param integer $hash
      *
      * @return Url
      */
-    public function setTargetUrl($targetUrl)
+    public function setHash($hash)
     {
-        $this->targetUrl = $targetUrl;
+        $this->hash = $hash;
 
         return $this;
     }
 
     /**
-     * Get targetUrl
+     * Get hash
+     *
+     * @return integer
+     */
+    public function getHash()
+    {
+        return $this->hash;
+    }
+
+    /**
+     * Set targetDesktopUrl
+     *
+     * @param string $targetDesktopUrl
+     *
+     * @return Url
+     */
+    public function setTargetDesktopUrl($targetDesktopUrl)
+    {
+        $this->targetDesktopUrl = $targetDesktopUrl;
+
+        return $this;
+    }
+
+    /**
+     * Get targetDesktopUrl
      *
      * @return string
      */
-    public function getTargetUrl()
+    public function getTargetDesktopUrl()
     {
-        return $this->targetUrl;
+        return $this->targetDesktopUrl;
     }
 
     /**
-     * Set redirectCount
+     * Set targetTabletUrl
      *
-     * @param integer $redirectCount
+     * @param string $targetTabletUrl
      *
      * @return Url
      */
-    public function setRedirectCount($redirectCount)
+    public function setTargetTabletUrl($targetTabletUrl)
     {
-        $this->redirectCount = $redirectCount;
+        $this->targetTabletUrl = $targetTabletUrl;
 
         return $this;
     }
 
     /**
-     * Get redirectCount
+     * Get targetTabletUrl
      *
-     * @return int
+     * @return string
      */
-    public function getRedirectCount()
+    public function getTargetTabletUrl()
     {
-        return $this->redirectCount;
+        return $this->targetTabletUrl;
     }
+
+    /**
+     * Set targetMobileUrl
+     *
+     * @param string $targetMobileUrl
+     *
+     * @return Url
+     */
+    public function setTargetMobileUrl($targetMobileUrl)
+    {
+        $this->targetMobileUrl = $targetMobileUrl;
+
+        return $this;
+    }
+
+    /**
+     * Get targetMobileUrl
+     *
+     * @return string
+     */
+    public function getTargetMobileUrl()
+    {
+        return $this->targetMobileUrl;
+    }
+
+    /**
+     * Set redirect
+     *
+     * @param Redirect $redirect
+     * @return Url
+     */
+    public function setRedirect(Redirect $redirect = null)
+    {
+        $this->redirect = $redirect;
+
+        return $this;
+    }
+
+    /**
+     * Get redirect
+     *
+     * @return redirect
+     */
+    public function getRedirect()
+    {
+        return $this->redirect;
+    }
+
 }
 

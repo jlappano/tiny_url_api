@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\AppBundle\Controller;
+namespace Tests\ApiBundle\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 
@@ -8,7 +8,7 @@ class ApiControllerTest extends WebTestCase {
 
     public function setUp(){
         $this->client = static::createClient();
-        $this->expected = '[{"id":1,"tinyUrl":"http:\/\/mytiny\/1","timeStamp":"2016-09-28T17:04:49+02:00","targetUrl":"http:\/\/longOriginal\/1","redirectCount":null},{"id":2,"tinyUrl":"http:\/\/mytiny\/2","timeStamp":"2016-09-28T17:04:49+02:00","targetUrl":"http:\/\/longOriginal\/2","redirectCount":null},{"id":3,"tinyUrl":"http:\/\/mytiny\/3","timeStamp":"2016-09-28T17:04:49+02:00","targetUrl":"http:\/\/longOriginal\/3","redirectCount":null},{"id":4,"tinyUrl":"http:\/\/mytiny\/4","timeStamp":"2016-09-28T17:04:49+02:00","targetUrl":"http:\/\/longOriginal\/4","redirectCount":null},{"id":5,"tinyUrl":"http:\/\/mytiny\/5","timeStamp":"2016-09-28T17:04:49+02:00","targetUrl":"http:\/\/longOriginal\/5","redirectCount":null},{"id":6,"tinyUrl":"http:\/\/mytiny\/6","timeStamp":"2016-09-28T17:04:49+02:00","targetUrl":"http:\/\/longOriginal\/6","redirectCount":null},{"id":7,"tinyUrl":"http:\/\/mytiny\/7","timeStamp":"2016-09-28T17:04:49+02:00","targetUrl":"http:\/\/longOriginal\/7","redirectCount":null},{"id":8,"tinyUrl":"http:\/\/mytiny\/8","timeStamp":"2016-09-28T17:04:49+02:00","targetUrl":"http:\/\/longOriginal\/8","redirectCount":null},{"id":9,"tinyUrl":"http:\/\/mytiny\/9","timeStamp":"2016-09-28T17:04:49+02:00","targetUrl":"http:\/\/longOriginal\/9","redirectCount":null},{"id":10,"tinyUrl":"http:\/\/mytiny\/10","timeStamp":"2016-09-28T17:04:49+02:00","targetUrl":"http:\/\/longOriginal\/10","redirectCount":null},{"id":11,"tinyUrl":"http:\/\/mytiny\/11","timeStamp":"2016-09-28T17:04:49+02:00","targetUrl":"http:\/\/longOriginal\/11","redirectCount":null}]';
+        $this->expected = '[{"tinyUrl":"cj","timeStamp":"2016-01-01T00:00:00+01:00","redirect":null},{"tinyUrl":"9m","timeStamp":"2016-01-02T00:00:00+01:00","redirect":null},{"tinyUrl":"cN","timeStamp":"2016-01-03T00:00:00+01:00","redirect":null},{"tinyUrl":"3k","timeStamp":"2016-01-04T00:00:00+01:00","redirect":null},{"tinyUrl":"5nb","timeStamp":"2016-01-05T00:00:00+01:00","redirect":null},{"tinyUrl":"5vRRM","timeStamp":"2016-01-06T00:00:00+01:00","redirect":null},{"tinyUrl":"7Gqp","timeStamp":"2016-01-07T00:00:00+01:00","redirect":null},{"tinyUrl":"3664Ft","timeStamp":"2016-01-08T00:00:00+01:00","redirect":null},{"tinyUrl":"4N7-","timeStamp":"2016-01-09T00:00:00+01:00","redirect":null},{"tinyUrl":"7GPb","timeStamp":"2016-01-10T00:00:00+01:00","redirect":null},{"tinyUrl":"jLG","timeStamp":"2016-01-11T00:00:00+01:00","redirect":null}]';
     }
 
     protected function assertJsonResponse($response, $statusCode = 200) {

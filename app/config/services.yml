@@ -4,6 +4,6 @@ parameters:
 #    parameter_name: value
 
 services:
-#    service_name:
-#        class: AppBundle\Directory\ClassName
+    url_service:
+       class: ApiBundle\Service\TinyUrlService
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]

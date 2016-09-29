@@ -17,7 +17,7 @@ class UrlController extends Controller
         $urlRepository = $this->getDoctrine()->getRepository('ApiBundle:Url');
         $allUrls = $urlRepository->findAll();
 
-        $jsonContent = $serializer->serialize($allUrls, 'json');
+        $jsonContent = $serializer->serialize($allUrls, 'json', array('groups' => array('listGroup')));
         $response = new Response();
         $response->setContent($jsonContent);
         $response->headers->set('Content-Type', 'application/json');
