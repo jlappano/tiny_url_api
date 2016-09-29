@@ -27,6 +27,7 @@ class ApiControllerTest extends WebTestCase {
         $this->client->request('GET', $route, array('ACCEPT' => 'application/json'));
         $response = $this->client->getResponse();
         $content = $response->getContent();
+        var_dump($content);
 
         $this->assertJsonResponse($response, 200);
         $this->assertEquals('{"name":"list action"}', $content);

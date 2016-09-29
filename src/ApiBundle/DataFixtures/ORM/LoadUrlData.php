@@ -4,7 +4,7 @@ namespace ApiBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use AppBundle\Entity\Url;
+use ApiBundle\Entity\Url;
 
 class LoadUrlData implements FixtureInterface
 {
