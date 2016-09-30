@@ -11,8 +11,6 @@ class ApiControllerTest extends WebTestCase {
     private $expectedTinyUrl;
     private $expectedUpdatedUrl;
 
-    //@TODO clear db run fixtures on setup
-    //@TODO make tests container aware, make assertions against db
     public function setUp(){
         $this->client = static::createClient();
         $this->expectedList = '[{"tinyUrl":"http:\/\/tiny.cj","timeStamp":"2016-01-01T00:00:00+01:00","redirect":null},{"tinyUrl":"http:\/\/tiny.9m","timeStamp":"2016-01-02T00:00:00+01:00","redirect":null},{"tinyUrl":"http:\/\/tiny.cN","timeStamp":"2016-01-03T00:00:00+01:00","redirect":null},{"tinyUrl":"http:\/\/tiny.3k","timeStamp":"2016-01-04T00:00:00+01:00","redirect":null},{"tinyUrl":"http:\/\/tiny.5nb","timeStamp":"2016-01-05T00:00:00+01:00","redirect":null},{"tinyUrl":"http:\/\/tiny.5vRRM","timeStamp":"2016-01-06T00:00:00+01:00","redirect":null},{"tinyUrl":"http:\/\/tiny.7Gqp","timeStamp":"2016-01-07T00:00:00+01:00","redirect":null},{"tinyUrl":"http:\/\/tiny.3664Ft","timeStamp":"2016-01-08T00:00:00+01:00","redirect":null},{"tinyUrl":"http:\/\/tiny.4N7-","timeStamp":"2016-01-09T00:00:00+01:00","redirect":null},{"tinyUrl":"http:\/\/tiny.7GPb","timeStamp":"2016-01-10T00:00:00+01:00","redirect":null},{"tinyUrl":"http:\/\/tiny.jLG","timeStamp":"2016-01-11T00:00:00+01:00","redirect":null}]';
@@ -21,7 +19,6 @@ class ApiControllerTest extends WebTestCase {
         $fixtures = array('ApiBundle\DataFixtures\ORM\LoadUrlData');
         $this->loadFixtures($fixtures);
     }
-
 
     protected function assertJsonResponse($response, $statusCode = 200) {
         $this->assertEquals(
@@ -106,7 +103,61 @@ class ApiControllerTest extends WebTestCase {
     }
 
     //3. Navigating to a shortened URL should redirect to the appropriate target URL
-    
+    public function testRedirectDefaultAction() {
+        $route =  $this->getUrl('api_url_redirect~json');
+        $requestContent = json_encode(array(
+            'tiny_url' => 'http://tiny.cj',
+        ));
+
+        $this->client->request('GET', $route, array(), array(), array('CONTENT_TYPE' => 'application/json'), $requestContent);
+        $response = $this->client->getResponse();
+        $content = $response->getContent();
+        var_dump($content);
+        
+        $this->assertJsonResponse($response, 200);
+    }
+
+    public function testRedirectDesktopAction() {
+        $route =  $this->getUrl('api_url_redirect~json');
+        $requestContent = json_encode(array(
+            'tiny_url' => 'http://tiny.cN',
+        ));
+
+        $this->client->request('GET', $route, array(), array(), array('CONTENT_TYPE' => 'application/json', 'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246'), $requestContent);
+        $response = $this->client->getResponse();
+        $content = $response->getContent();
+        var_dump($content);
+        
+        $this->assertJsonResponse($response, 200);
+    }
+
+    public function testRedirectMobileAction() {
+        $route =  $this->getUrl('api_url_redirect~json');
+        $requestContent = json_encode(array(
+            'tiny_url' => 'http://tiny.cN',
+        ));
+
+        $this->client->request('GET', $route, array(), array(), array('CONTENT_TYPE' => 'application/json', 'HTTP_USER_AGENT' => 'Mozilla/5.0 (Linux; U; Android 4.0.3; ko-kr; LG-L160L Build/IML74K) AppleWebkit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30'), $requestContent);
+        $response = $this->client->getResponse();
+        $content = $response->getContent();
+        var_dump($content);
+        
+        $this->assertJsonResponse($response, 200);
+    }
+
+    public function testRedirectTabletAction() {
+        $route =  $this->getUrl('api_url_redirect~json');
+        $requestContent = json_encode(array(
+            'tiny_url' => 'http://tiny.cN',
+        ));
+
+        $this->client->request('GET', $route, array(), array(), array('CONTENT_TYPE' => 'application/json', 'HTTP_USER_AGENT' => 'Mozilla/5.0 (Tablet; rv:26.0) Gecko/26.0 Firefox/26.0'), $requestContent);
+        $response = $this->client->getResponse();
+        $content = $response->getContent();
+        var_dump($content);
+        
+        $this->assertJsonResponse($response, 200);
+    }
 
 
     

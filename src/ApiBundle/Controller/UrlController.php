@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use ApiBundle\Entity\Url;
 
 class UrlController extends Controller
@@ -55,6 +56,46 @@ class UrlController extends Controller
             $em->flush();
 
             $responseContent = json_encode(array('tiny url' => $tinyUrl));
+            $response = new Response();
+            $response->setContent($responseContent);
+            $response->headers->set('Content-Type', 'application/json'); 
+            return $response;
+        }
+
+        $response = new Response();
+        $responseContent = json_encode(array('malformed request' => 'missing parameters'));
+        $response->setContent($jsonContent);
+        $response->setStatusCode(400);
+        $response->headers->set('Content-Type', 'application/json'); 
+        return $response;
+
+    }
+
+    public function redirectAction(Request $request)
+    {
+        $jsonContent = $request->getContent();
+        $content = json_decode($jsonContent, true);
+
+        if (!is_null($content) && array_key_exists('tiny_url', $content)) {
+
+            $tinyUrl = $content['tiny_url'];
+            $em = $this->getDoctrine()->getManager();
+            $urlRepository = $this->getDoctrine()->getRepository('ApiBundle:Url');
+            $url = $urlRepository->findOneByTinyUrl($tinyUrl);
+
+            $userAgentService = $this->get('device_detect_service');
+            $redirectUrl = '';
+            $userAgent = $request->headers->get('User-Agent');
+
+            if($userAgentService->isMobile($userAgent)){
+                $redirectUrl = $url->getTargetMobileUrl();
+            } elseif ($userAgentService->isTablet($userAgent)) {
+                $redirectUrl = $url->getTargetTabletUrl();
+            } else {
+                $redirectUrl = $url->getTargetDesktopUrl();
+            }
+
+            $responseContent = json_encode(array('url' => $redirectUrl));
             $response = new Response();
             $response->setContent($responseContent);
             $response->headers->set('Content-Type', 'application/json'); 

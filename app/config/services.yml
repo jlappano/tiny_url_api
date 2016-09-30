@@ -6,4 +6,6 @@ parameters:
 services:
     url_service:
        class: ApiBundle\Service\TinyUrlService
-#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+
+    device_detect_service:
+       class: ApiBundle\Service\DeviceDetectService

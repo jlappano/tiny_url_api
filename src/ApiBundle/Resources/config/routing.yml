@@ -5,9 +5,9 @@ api_url_list~json:
     methods:    [GET]
 
 # Redirect
-api_url_list~json:
+api_url_redirect~json:
     path:       /url/redirect
-    defaults:   { _controller: ApiBundle:Url:Redirect }
+    defaults:   { _controller: ApiBundle:Url:redirect }
     methods:    [GET]
 
 # Simple CRUD Actions
