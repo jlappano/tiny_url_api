@@ -73,14 +73,14 @@ Response Code 200
 
 ```
 "{
-    "url":"http://my_very_long_testing_url_that_goes_on_forever_and_ever177798827272727"
+    "url":"http:\/\/my_very_long_testing_url_that_goes_on_forever_and_ever177798827272727"
 }"
 ```
 **Sample Response**:
 
 ```
 "{
-    "tiny url":"http://tiny.38"
+    "tiny url":"http:\/\/tiny.38"
  }"
 ```
 
@@ -96,16 +96,16 @@ Response Code 200
 
 ```
 "{
-    "tiny_url":"http://tiny.38"
+    "tiny_url":"http:\/\/tiny.38"
 }"
 ```
 **Optional Parameters**: 
 
 ```
 "{
-    "tablet_target":"http://tablet/testTarget",
-    "mobile_target":"http://mobile/testTarget",
-    "desktop_target":"http://desktop/testTarget"
+    "tablet_target":"http:\/\/tablet/testTarget",
+    "mobile_target":"http:\/\/mobile/testTarget",
+    "desktop_target":"http:\/\/desktop/testTarget"
 }"
 ```
 **Sample Response**: 200 OK 
@@ -122,7 +122,7 @@ Response Code 200
 
 ```
 "{
-    "tiny_url":"http://tiny.cj"
+    "tiny_url":"http:\/\/tiny.cj"
 }"
 ```
 
