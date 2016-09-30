@@ -4,6 +4,7 @@ namespace ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiBundle\Entity\Redirect;
 
 
 /**
@@ -69,10 +70,9 @@ class Url
 
     /**
      * @Groups({"listGroup"})
-     * @ORM\OneToOne(targetEntity="Redirect", mappedBy="url")
+     * @ORM\OneToOne(targetEntity="Redirect", mappedBy="url", cascade={"persist"})
      **/
     private $redirect;
-
 
     /**
      * Get id

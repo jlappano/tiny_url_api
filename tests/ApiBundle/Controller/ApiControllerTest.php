@@ -111,10 +111,12 @@ class ApiControllerTest extends WebTestCase {
 
         $this->client->request('GET', $route, array(), array(), array('CONTENT_TYPE' => 'application/json'), $requestContent);
         $response = $this->client->getResponse();
-        $content = $response->getContent();
-        var_dump($content);
+        $targetUrl = $response->getTargetUrl();
         
-        $this->assertJsonResponse($response, 200);
+        $urlRepository = $this->client->getContainer()->get('doctrine.orm.entity_manager')->getRepository('ApiBundle:Url');
+        $updatedUrl = $urlRepository->findOneByTinyUrl('http://tiny.cj');
+        $this->assertEquals($targetUrl, $updatedUrl->getTargetDesktopUrl());
+        $this->assertJsonResponse($response, 302);
     }
 
     public function testRedirectDesktopAction() {
@@ -125,10 +127,13 @@ class ApiControllerTest extends WebTestCase {
 
         $this->client->request('GET', $route, array(), array(), array('CONTENT_TYPE' => 'application/json', 'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246'), $requestContent);
         $response = $this->client->getResponse();
-        $content = $response->getContent();
-        var_dump($content);
-        
-        $this->assertJsonResponse($response, 200);
+        $targetUrl = $response->getTargetUrl();
+
+        $urlRepository = $this->client->getContainer()->get('doctrine.orm.entity_manager')->getRepository('ApiBundle:Url');
+        $updatedUrl = $urlRepository->findOneByTinyUrl('http://tiny.cN');
+
+        $this->assertEquals($targetUrl, $updatedUrl->getTargetDesktopUrl());
+        $this->assertJsonResponse($response, 302);
     }
 
     public function testRedirectMobileAction() {
@@ -139,10 +144,13 @@ class ApiControllerTest extends WebTestCase {
 
         $this->client->request('GET', $route, array(), array(), array('CONTENT_TYPE' => 'application/json', 'HTTP_USER_AGENT' => 'Mozilla/5.0 (Linux; U; Android 4.0.3; ko-kr; LG-L160L Build/IML74K) AppleWebkit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30'), $requestContent);
         $response = $this->client->getResponse();
-        $content = $response->getContent();
-        var_dump($content);
-        
-        $this->assertJsonResponse($response, 200);
+        $targetUrl = $response->getTargetUrl();
+
+        $urlRepository = $this->client->getContainer()->get('doctrine.orm.entity_manager')->getRepository('ApiBundle:Url');
+        $updatedUrl = $urlRepository->findOneByTinyUrl('http://tiny.cN');
+
+        $this->assertEquals($targetUrl, $updatedUrl->getTargetMobileUrl());        
+        $this->assertJsonResponse($response, 302);
     }
 
     public function testRedirectTabletAction() {
@@ -153,10 +161,18 @@ class ApiControllerTest extends WebTestCase {
 
         $this->client->request('GET', $route, array(), array(), array('CONTENT_TYPE' => 'application/json', 'HTTP_USER_AGENT' => 'Mozilla/5.0 (Tablet; rv:26.0) Gecko/26.0 Firefox/26.0'), $requestContent);
         $response = $this->client->getResponse();
-        $content = $response->getContent();
-        var_dump($content);
-        
-        $this->assertJsonResponse($response, 200);
+        $targetUrl = $response->getTargetUrl();
+
+        $urlRepository = $this->client->getContainer()->get('doctrine.orm.entity_manager')->getRepository('ApiBundle:Url');
+        $updatedUrl = $urlRepository->findOneByTinyUrl('http://tiny.cN');
+
+        $this->assertEquals($targetUrl, $updatedUrl->getTargetTabletUrl());        
+        $this->assertJsonResponse($response, 302);
+    }
+
+    //listed should include all redirects
+    public function testRediectCount() {
+
     }
 
 

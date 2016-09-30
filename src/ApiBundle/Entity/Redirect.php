@@ -63,7 +63,7 @@ class Redirect
     /**
      * Set desktopRedirects
      *
-     * @param string $desktopRedirects
+     * @param integer $desktopRedirects
      *
      * @return Redirect
      */
@@ -87,7 +87,7 @@ class Redirect
     /**
      * Set tabletRedirects
      *
-     * @param string $tabletRedirects
+     * @param integer $tabletRedirects
      *
      * @return Redirect
      */
@@ -111,7 +111,7 @@ class Redirect
     /**
      * Set mobileRedirects
      *
-     * @param string $mobileRedirects
+     * @param integer $mobileRedirects
      *
      * @return Redirect
      */
@@ -130,6 +130,27 @@ class Redirect
     public function getMobileRedirects()
     {
         return $this->mobileRedirects;
+    }
+
+    public function incrementDesktopRedirects()
+    {
+        $this->desktopRedirects++;
+
+        return $this;
+    }
+
+    public function incrementTabletRedirects()
+    {
+        $this->tabletRedirects++;
+
+        return $this;
+    }
+
+    public function incrementMobileRedirects()
+    {
+        $this->mobileRedirects++;
+
+        return $this;
     }
 
 }

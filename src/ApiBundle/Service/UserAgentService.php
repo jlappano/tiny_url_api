@@ -3,10 +3,10 @@
 namespace ApiBundle\Service;
 
 /**
- * Class DeviceDetectService
+ * Class UserAgentService
  * @package Relay\RiseBundle\Service
  */
-class DeviceDetectService
+class UserAgentService
 {
 
     public function isMobile($userAgent)

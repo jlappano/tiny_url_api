@@ -7,5 +7,5 @@ services:
     url_service:
        class: ApiBundle\Service\TinyUrlService
 
-    device_detect_service:
-       class: ApiBundle\Service\DeviceDetectService
+    user_agent_service:
+       class: ApiBundle\Service\UserAgentService
