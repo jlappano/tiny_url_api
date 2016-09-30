@@ -27,7 +27,7 @@ class Url
      * @var string
      *
      * @Groups({"listGroup"})
-     * @ORM\Column(name="tinyDesktopUrl", type="string", length=255)
+     * @ORM\Column(name="tinyUrl", type="string", length=255)
      */
     private $tinyUrl;
 

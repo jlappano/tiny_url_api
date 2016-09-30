@@ -6,10 +6,20 @@ use Liip\FunctionalTestBundle\Test\WebTestCase;
 
 class ApiControllerTest extends WebTestCase {
 
+    private $client;
+    private $expectedList;
+    private $expectedTinyUrl;
+    private $expectedUpdatedUrl;
+
+    //@TODO clear db run fixtures on setup
+    //@TODO make tests container aware, make assertions against db
     public function setUp(){
         $this->client = static::createClient();
-        $this->expectedList = '[{"tinyUrl":"http:\/\/cj","timeStamp":"2016-01-01T00:00:00+01:00","redirect":null},{"tinyUrl":"http:\/\/9m","timeStamp":"2016-01-02T00:00:00+01:00","redirect":null},{"tinyUrl":"http:\/\/cN","timeStamp":"2016-01-03T00:00:00+01:00","redirect":null},{"tinyUrl":"http:\/\/3k","timeStamp":"2016-01-04T00:00:00+01:00","redirect":null},{"tinyUrl":"http:\/\/5nb","timeStamp":"2016-01-05T00:00:00+01:00","redirect":null},{"tinyUrl":"http:\/\/5vRRM","timeStamp":"2016-01-06T00:00:00+01:00","redirect":null},{"tinyUrl":"http:\/\/7Gqp","timeStamp":"2016-01-07T00:00:00+01:00","redirect":null},{"tinyUrl":"http:\/\/3664Ft","timeStamp":"2016-01-08T00:00:00+01:00","redirect":null},{"tinyUrl":"http:\/\/4N7-","timeStamp":"2016-01-09T00:00:00+01:00","redirect":null},{"tinyUrl":"http:\/\/7GPb","timeStamp":"2016-01-10T00:00:00+01:00","redirect":null},{"tinyUrl":"http:\/\/jLG","timeStamp":"2016-01-11T00:00:00+01:00","redirect":null}]';
+        $this->expectedList = '[{"tinyUrl":"http:\/\/tiny.cj","timeStamp":"2016-01-01T00:00:00+01:00","redirect":null},{"tinyUrl":"http:\/\/tiny.9m","timeStamp":"2016-01-02T00:00:00+01:00","redirect":null},{"tinyUrl":"http:\/\/tiny.cN","timeStamp":"2016-01-03T00:00:00+01:00","redirect":null},{"tinyUrl":"http:\/\/tiny.3k","timeStamp":"2016-01-04T00:00:00+01:00","redirect":null},{"tinyUrl":"http:\/\/tiny.5nb","timeStamp":"2016-01-05T00:00:00+01:00","redirect":null},{"tinyUrl":"http:\/\/tiny.5vRRM","timeStamp":"2016-01-06T00:00:00+01:00","redirect":null},{"tinyUrl":"http:\/\/tiny.7Gqp","timeStamp":"2016-01-07T00:00:00+01:00","redirect":null},{"tinyUrl":"http:\/\/tiny.3664Ft","timeStamp":"2016-01-08T00:00:00+01:00","redirect":null},{"tinyUrl":"http:\/\/tiny.4N7-","timeStamp":"2016-01-09T00:00:00+01:00","redirect":null},{"tinyUrl":"http:\/\/tiny.7GPb","timeStamp":"2016-01-10T00:00:00+01:00","redirect":null},{"tinyUrl":"http:\/\/tiny.jLG","timeStamp":"2016-01-11T00:00:00+01:00","redirect":null}]';
         $this->expectedTinyUrl = '{"tiny url":"http:\/\/tiny.38"}';
+        $this->expectedUpdatedUrl = '{"tiny url":"http:\/\/tiny.9m"}';
+        $fixtures = array('ApiBundle\DataFixtures\ORM\LoadUrlData');
+        $this->loadFixtures($fixtures);
     }
 
 
@@ -61,5 +71,43 @@ class ApiControllerTest extends WebTestCase {
     }
 
     //2. User should be able to configure a shortened URL to redirect to different targets based on the device type (mobile, tablet, desktop) of the user navigating to the shortened URL
+    public function testUpdateAction() {
+        $route =  $this->getUrl('api_url_update~json');
+        $requestContent = json_encode(array(
+            'tiny_url' => 'http://tiny.9m',
+            'tablet_target' => 'http://tablet/testTarget',
+            'mobile_target' => 'http://mobile/testTarget',
+            'desktop_target' => 'http://desktop/testTarget'
+        ));
+
+        $this->client->request('PUT', $route, array(), array(), array('CONTENT_TYPE' => 'application/json'), $requestContent);
+        $response = $this->client->getResponse();
+        $content = $response->getContent();
+        
+        $this->assertJsonResponse($response, 200);
+        $this->assertEquals($this->expectedUpdatedUrl, $content);
+
+        $urlRepository = $this->client->getContainer()->get('doctrine.orm.entity_manager')->getRepository('ApiBundle:Url');
+        $updatedUrl = $urlRepository->findOneByTinyUrl('http://tiny.9m');
+        $this->assertEquals('http://desktop/testTarget', $updatedUrl->getTargetDesktopUrl());
+        $this->assertEquals('http://mobile/testTarget', $updatedUrl->getTargetMobileUrl());
+        $this->assertEquals('http://tablet/testTarget', $updatedUrl->getTargetTabletUrl());
+    }
+
+    //2.a User should get an error if parameters are wrong
+    public function testUpdateActionError() {
+        $route =  $this->getUrl('api_url_update~json');
+        $requestContent = json_encode(array('wrong_payload' => 'is_wrong'));
+
+        $this->client->request('PUT', $route, array(), array(), array('CONTENT_TYPE' => 'application/json'), $requestContent);
+        $response = $this->client->getResponse();
+        
+        $this->assertJsonResponse($response, 400);
+    }
+
+    //3. Navigating to a shortened URL should redirect to the appropriate target URL
+    
+
+
     
 }
