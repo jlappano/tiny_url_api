@@ -4,7 +4,6 @@ namespace ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
-use ApiBundle\Entity\Redirect;
 
 
 /**
@@ -69,10 +68,28 @@ class Url
     private $targetMobileUrl;
 
     /**
-     * @Groups({"listGroup"})
-     * @ORM\OneToOne(targetEntity="Redirect", mappedBy="url", cascade={"persist"})
-     **/
-    private $redirect;
+    * @var integer
+    *
+    * @Groups({"listGroup"})
+    * @ORM\Column(name="desktopRedirects", type="integer", nullable=true)
+    */
+    private $desktopRedirects = 0;
+
+    /**
+    * @var integer
+    *
+    * @Groups({"listGroup"})
+    * @ORM\Column(name="tabletRedirects", type="integer", nullable=true)
+    */
+    private $tabletRedirects = 0;
+
+    /**
+    * @var integer
+    *
+    * @Groups({"listGroup"})
+    * @ORM\Column(name="mobileRedirects", type="integer", nullable=true)
+    */
+    private $mobileRedirects = 0;
 
     /**
      * Get id
@@ -229,26 +246,96 @@ class Url
     }
 
     /**
-     * Set redirect
+     * Set desktopRedirects
      *
-     * @param Redirect $redirect
+     * @param integer $desktopRedirects
+     *
      * @return Url
      */
-    public function setRedirect(Redirect $redirect = null)
+    public function setDesktopRedirects($desktopRedirects)
     {
-        $this->redirect = $redirect;
+        $this->desktopRedirects = $desktopRedirects;
 
         return $this;
     }
 
     /**
-     * Get redirect
+     * Get desktopRedirects
      *
-     * @return redirect
+     * @return integer
      */
-    public function getRedirect()
+    public function getDesktopRedirects()
     {
-        return $this->redirect;
+        return $this->desktopRedirects;
+    }
+
+    /**
+     * Set tabletRedirects
+     *
+     * @param integer $tabletRedirects
+     *
+     * @return Url
+     */
+    public function setTabletRedirects($tabletRedirects)
+    {
+        $this->tabletRedirects = $tabletRedirects;
+
+        return $this;
+    }
+
+    /**
+     * Get tabletRedirects
+     *
+     * @return integer
+     */
+    public function getTabletRedirects()
+    {
+        return $this->tabletRedirects;
+    }
+
+    /**
+     * Set mobileRedirects
+     *
+     * @param integer $mobileRedirects
+     *
+     * @return Url
+     */
+    public function setMobileRedirects($mobileRedirects)
+    {
+        $this->mobileRedirects = $mobileRedirects;
+
+        return $this;
+    }
+
+    /**
+     * Get mobileRedirects
+     *
+     * @return integer
+     */
+    public function getMobileRedirects()
+    {
+        return $this->mobileRedirects;
+    }
+
+    public function incrementDesktopRedirects()
+    {
+        $this->desktopRedirects++;
+
+        return $this;
+    }
+
+    public function incrementTabletRedirects()
+    {
+        $this->tabletRedirects++;
+
+        return $this;
+    }
+
+    public function incrementMobileRedirects()
+    {
+        $this->mobileRedirects++;
+
+        return $this;
     }
 
     /**

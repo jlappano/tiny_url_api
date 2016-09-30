@@ -13,7 +13,7 @@ class ApiControllerTest extends WebTestCase {
 
     public function setUp(){
         $this->client = static::createClient();
-        $this->expectedList = '[{"tinyUrl":"http:\/\/tiny.cj","timeStamp":"2016-01-01T00:00:00+01:00","redirect":null},{"tinyUrl":"http:\/\/tiny.9m","timeStamp":"2016-01-02T00:00:00+01:00","redirect":null},{"tinyUrl":"http:\/\/tiny.cN","timeStamp":"2016-01-03T00:00:00+01:00","redirect":null},{"tinyUrl":"http:\/\/tiny.3k","timeStamp":"2016-01-04T00:00:00+01:00","redirect":null},{"tinyUrl":"http:\/\/tiny.5nb","timeStamp":"2016-01-05T00:00:00+01:00","redirect":null},{"tinyUrl":"http:\/\/tiny.5vRRM","timeStamp":"2016-01-06T00:00:00+01:00","redirect":null},{"tinyUrl":"http:\/\/tiny.7Gqp","timeStamp":"2016-01-07T00:00:00+01:00","redirect":null},{"tinyUrl":"http:\/\/tiny.3664Ft","timeStamp":"2016-01-08T00:00:00+01:00","redirect":null},{"tinyUrl":"http:\/\/tiny.4N7-","timeStamp":"2016-01-09T00:00:00+01:00","redirect":null},{"tinyUrl":"http:\/\/tiny.7GPb","timeStamp":"2016-01-10T00:00:00+01:00","redirect":null},{"tinyUrl":"http:\/\/tiny.jLG","timeStamp":"2016-01-11T00:00:00+01:00","redirect":null}]';
+        $this->expectedList = '[{"tinyUrl":"http:\/\/tiny.cj","timeStamp":"2016-01-01T00:00:00+01:00","desktopRedirects":0,"tabletRedirects":0,"mobileRedirects":0},{"tinyUrl":"http:\/\/tiny.9m","timeStamp":"2016-01-02T00:00:00+01:00","desktopRedirects":0,"tabletRedirects":0,"mobileRedirects":0},{"tinyUrl":"http:\/\/tiny.cN","timeStamp":"2016-01-03T00:00:00+01:00","desktopRedirects":0,"tabletRedirects":0,"mobileRedirects":0},{"tinyUrl":"http:\/\/tiny.3k","timeStamp":"2016-01-04T00:00:00+01:00","desktopRedirects":0,"tabletRedirects":0,"mobileRedirects":0},{"tinyUrl":"http:\/\/tiny.5nb","timeStamp":"2016-01-05T00:00:00+01:00","desktopRedirects":0,"tabletRedirects":0,"mobileRedirects":0},{"tinyUrl":"http:\/\/tiny.5vRRM","timeStamp":"2016-01-06T00:00:00+01:00","desktopRedirects":0,"tabletRedirects":0,"mobileRedirects":0},{"tinyUrl":"http:\/\/tiny.7Gqp","timeStamp":"2016-01-07T00:00:00+01:00","desktopRedirects":0,"tabletRedirects":0,"mobileRedirects":0},{"tinyUrl":"http:\/\/tiny.3664Ft","timeStamp":"2016-01-08T00:00:00+01:00","desktopRedirects":0,"tabletRedirects":0,"mobileRedirects":0},{"tinyUrl":"http:\/\/tiny.4N7-","timeStamp":"2016-01-09T00:00:00+01:00","desktopRedirects":0,"tabletRedirects":0,"mobileRedirects":0},{"tinyUrl":"http:\/\/tiny.7GPb","timeStamp":"2016-01-10T00:00:00+01:00","desktopRedirects":0,"tabletRedirects":0,"mobileRedirects":0},{"tinyUrl":"http:\/\/tiny.jLG","timeStamp":"2016-01-11T00:00:00+01:00","desktopRedirects":0,"tabletRedirects":0,"mobileRedirects":0}]';
         $this->expectedTinyUrl = '{"tiny url":"http:\/\/tiny.38"}';
         $this->expectedUpdatedUrl = '{"tiny url":"http:\/\/tiny.9m"}';
         $fixtures = array('ApiBundle\DataFixtures\ORM\LoadUrlData');
@@ -151,6 +151,13 @@ class ApiControllerTest extends WebTestCase {
 
         $this->assertEquals($targetUrl, $updatedUrl->getTargetMobileUrl());        
         $this->assertJsonResponse($response, 302);
+
+        // $rt =  $this->getUrl('api_url_list~json');
+
+        // $this->client->request('GET', $rt, array('ACCEPT' => 'application/json'));
+        // $response = $this->client->getResponse();
+        // $content = $response->getContent();
+        // var_dump($content);
     }
 
     public function testRedirectTabletAction() {
@@ -168,11 +175,13 @@ class ApiControllerTest extends WebTestCase {
 
         $this->assertEquals($targetUrl, $updatedUrl->getTargetTabletUrl());        
         $this->assertJsonResponse($response, 302);
-    }
 
-    //listed should include all redirects
-    public function testRediectCount() {
+        // $rt =  $this->getUrl('api_url_list~json');
 
+        // $this->client->request('GET', $rt, array('ACCEPT' => 'application/json'));
+        // $response = $this->client->getResponse();
+        // $content = $response->getContent();
+        // var_dump($content);
     }
 
 

@@ -10,7 +10,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use ApiBundle\Entity\Url;
-use ApiBundle\Entity\Redirect;
 
 class UrlController extends Controller
 {
@@ -77,15 +76,13 @@ class UrlController extends Controller
         $content = json_decode($jsonContent, true);
 
         if (!is_null($content) && array_key_exists('tiny_url', $content)) {
-
             $tinyUrl = $content['tiny_url'];
             $em = $this->getDoctrine()->getManager();
             $urlRepository = $this->getDoctrine()->getRepository('ApiBundle:Url');
             $url = $urlRepository->findOneByTinyUrl($tinyUrl);
 
-            $userAgentService = $this->get('user_agent_service');
             $userAgent = $request->headers->get('User-Agent');
-            $redirectUrl = $this->getRedirectUrl();
+            $redirectUrl = $this->getRedirectUrl($url, $userAgent);
 
             $response = new RedirectResponse($redirectUrl);
             $response->headers->set('Content-Type', 'application/json'); 
@@ -142,45 +139,23 @@ class UrlController extends Controller
     {
         $redirectUrl = '';
         $em = $this->getDoctrine()->getManager();
+        $userAgentService = $this->get('user_agent_service');
 
         if($userAgentService->isMobile($userAgent) && !is_null($url->getTargetMobileUrl())){
             $redirectUrl = $url->getTargetMobileUrl();
-
-            if(!in_null($url->getRedirect())){
-                $redirect = $url->getRedirect();
-            } else {
-                $redirect = new Redirect();
-                $url->setRedirect($redirect);
-            }
-
-            $redirect->incrementMobileRedirects();
-            $em->persist($redirect);
+            $url->incrementMobileRedirects();
+            $em->persist($url);
 
         } elseif ($userAgentService->isTablet($userAgent) && !is_null($url->getTargetTabletUrl())) {
             $redirectUrl = $url->getTargetTabletUrl();
-
-            if(!in_null($url->getRedirect())){
-                $redirect = $url->getRedirect();
-            } else {
-                $redirect = new Redirect();
-                $url->setRedirect($redirect);
-            }
-            
-            $redirect->incrementTabletRedirects();
-            $em->persist($redirect);
+            $url->incrementTabletRedirects();
+            $em->persist($url);
 
         } else {
             $redirectUrl = $url->getTargetDesktopUrl();
+            $url->incrementDesktopRedirects();
+            $em->persist($url);
 
-            if(!in_null($url->getRedirect())){
-                $redirect = $url->getRedirect();
-            } else {
-                $redirect = new Redirect();
-                $url->setRedirect($redirect);
-            }
-            
-            $redirect->incrementDesktopRedirects();
-            $em->persist($redirect);
         }
         $em->flush();
         return $redirectUrl;
