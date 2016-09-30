@@ -132,6 +132,7 @@ class ApiControllerTest extends WebTestCase {
         $urlRepository = $this->client->getContainer()->get('doctrine.orm.entity_manager')->getRepository('ApiBundle:Url');
         $updatedUrl = $urlRepository->findOneByTinyUrl('http://tiny.cN');
 
+        $this->assertEquals(1, $updatedUrl->getDesktopRedirects());
         $this->assertEquals($targetUrl, $updatedUrl->getTargetDesktopUrl());
         $this->assertJsonResponse($response, 302);
     }
@@ -149,15 +150,9 @@ class ApiControllerTest extends WebTestCase {
         $urlRepository = $this->client->getContainer()->get('doctrine.orm.entity_manager')->getRepository('ApiBundle:Url');
         $updatedUrl = $urlRepository->findOneByTinyUrl('http://tiny.cN');
 
+        $this->assertEquals(1, $updatedUrl->getMobileRedirects());
         $this->assertEquals($targetUrl, $updatedUrl->getTargetMobileUrl());        
         $this->assertJsonResponse($response, 302);
-
-        // $rt =  $this->getUrl('api_url_list~json');
-
-        // $this->client->request('GET', $rt, array('ACCEPT' => 'application/json'));
-        // $response = $this->client->getResponse();
-        // $content = $response->getContent();
-        // var_dump($content);
     }
 
     public function testRedirectTabletAction() {
@@ -173,15 +168,9 @@ class ApiControllerTest extends WebTestCase {
         $urlRepository = $this->client->getContainer()->get('doctrine.orm.entity_manager')->getRepository('ApiBundle:Url');
         $updatedUrl = $urlRepository->findOneByTinyUrl('http://tiny.cN');
 
+        $this->assertEquals(1, $updatedUrl->getTabletRedirects());
         $this->assertEquals($targetUrl, $updatedUrl->getTargetTabletUrl());        
         $this->assertJsonResponse($response, 302);
-
-        // $rt =  $this->getUrl('api_url_list~json');
-
-        // $this->client->request('GET', $rt, array('ACCEPT' => 'application/json'));
-        // $response = $this->client->getResponse();
-        // $content = $response->getContent();
-        // var_dump($content);
     }
 
 
