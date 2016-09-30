@@ -17,13 +17,13 @@ class TinyUrlServiceTest extends WebTestCase {
     public function testEncode() {
         $this->assertEquals(
             $this->urlService->encode(17772202030033),
-            'http://qQ_TRh4x'
+            'http://tiny.qQ_TRh4x'
         );
     }
 
     public function testDecode() {
         $this->assertEquals(
-            $this->urlService->decode('http://qQ_TRh4x'),
+            $this->urlService->decode('http://tiny.qQ_TRh4x'),
             17772202030033
         );
     }

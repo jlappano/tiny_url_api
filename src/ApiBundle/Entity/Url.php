@@ -142,11 +142,12 @@ class Url
     /**
      * Get timeStamp
      *
-     * @return \DateTime
+     * @return string
      */
     public function getTimeStamp()
     {
-        return $this->timeStamp;
+        $interval = $this->timeStamp->diff(new \DateTime('now'));
+        return $interval->format('%m months, %d days, and %h hours and %i minutes ago');
     }
 
     /**
