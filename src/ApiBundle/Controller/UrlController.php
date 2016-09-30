@@ -5,7 +5,6 @@ namespace ApiBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -13,7 +12,11 @@ use ApiBundle\Entity\Url;
 
 class UrlController extends Controller
 {
-    public function listAction(Request $request)
+    /*
+    * Accepts any GET request, serializes whitelisted attributes on all urls and returns
+    * As JSON
+    */
+    public function listAction()
     {
         $serializer = $this->get('serializer');
         $urlRepository = $this->getDoctrine()->getRepository('ApiBundle:Url');
@@ -27,6 +30,11 @@ class UrlController extends Controller
         return $response;
     }
 
+    /*
+    * Accepts a PUT request action, sets given target urls
+    * To tiny url
+    * returns 200 OK or 400 for malformed content
+    */
     public function updateAction(Request $request)
     {
         $jsonContent = $request->getContent();
@@ -49,16 +57,14 @@ class UrlController extends Controller
                 if(array_key_exists('desktop_target', $content)) {
                     $url->setTargetDesktopUrl($content['desktop_target']);
                 }
+
+                $em->persist($url);
+                $em->flush();
+
+                $response = new Response();
+                $response->headers->set('Content-Type', 'application/json'); 
+                return $response;
             }
-
-            $em->persist($url);
-            $em->flush();
-
-            $responseContent = json_encode(array('tiny url' => $tinyUrl));
-            $response = new Response();
-            $response->setContent($responseContent);
-            $response->headers->set('Content-Type', 'application/json'); 
-            return $response;
         }
 
         $response = new Response();
@@ -70,6 +76,11 @@ class UrlController extends Controller
 
     }
 
+    /*
+    * Accepts GET request with tiny url
+    * Finds redirect route based on given user agent
+    * Returns 302 redirect or 400 for malformed content
+    */
     public function redirectAction(Request $request)
     {
         $jsonContent = $request->getContent();
@@ -98,6 +109,10 @@ class UrlController extends Controller
 
     }
 
+    /*
+    * Creates new URL entity with given default redirect route
+    * Returns new shiny redirect URL or 400 for malformed content
+    */
     public function createAction(Request $request)
     {
         $jsonContent = $request->getContent();
@@ -128,13 +143,18 @@ class UrlController extends Controller
         }
 
         $response = new Response();
-        $responseContent = json_encode(array('malformed request' => 'must request url'));
+        $responseContent = json_encode(array('malformed request' => 'missing parameters'));
         $response->setContent($jsonContent);
         $response->setStatusCode(400);
         $response->headers->set('Content-Type', 'application/json'); 
         return $response;
     }
 
+    /*
+    * Gets reirect url from user agent service
+    * Increments associated redirect count
+    * Returns redirect url
+    */
     private function getRedirectUrl($url, $userAgent)
     {
         $redirectUrl = '';
@@ -144,19 +164,17 @@ class UrlController extends Controller
         if($userAgentService->isMobile($userAgent) && !is_null($url->getTargetMobileUrl())){
             $redirectUrl = $url->getTargetMobileUrl();
             $url->incrementMobileRedirects();
-            $em->persist($url);
 
         } elseif ($userAgentService->isTablet($userAgent) && !is_null($url->getTargetTabletUrl())) {
             $redirectUrl = $url->getTargetTabletUrl();
             $url->incrementTabletRedirects();
-            $em->persist($url);
 
         } else {
             $redirectUrl = $url->getTargetDesktopUrl();
             $url->incrementDesktopRedirects();
-            $em->persist($url);
 
         }
+        $em->persist($url);
         $em->flush();
         return $redirectUrl;
     }

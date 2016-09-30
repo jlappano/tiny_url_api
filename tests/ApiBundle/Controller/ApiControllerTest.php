@@ -13,7 +13,6 @@ class ApiControllerTest extends WebTestCase {
     public function setUp(){
         $this->client = static::createClient();
         $this->expectedTinyUrl = '{"tiny url":"http:\/\/tiny.38"}';
-        $this->expectedUpdatedUrl = '{"tiny url":"http:\/\/tiny.9m"}';
         $fixtures = array('ApiBundle\DataFixtures\ORM\LoadUrlData');
         $this->loadFixtures($fixtures);
     }
@@ -82,10 +81,7 @@ class ApiControllerTest extends WebTestCase {
 
         $this->client->request('PUT', $route, array(), array(), array('CONTENT_TYPE' => 'application/json'), $requestContent);
         $response = $this->client->getResponse();
-        $content = $response->getContent();
-        
         $this->assertJsonResponse($response, 200);
-        $this->assertEquals($this->expectedUpdatedUrl, $content);
 
         $urlRepository = $this->client->getContainer()->get('doctrine.orm.entity_manager')->getRepository('ApiBundle:Url');
         $updatedUrl = $urlRepository->findOneByTinyUrl('http://tiny.9m');
