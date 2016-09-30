@@ -30,6 +30,7 @@ $ vendor/bin/phpunit tests/ApiBundle
 
 ### Using the API
 
+---
 
 **Route**: api/url/list
 
@@ -60,6 +61,8 @@ Response Code 200
 }]"
 ```
 
+---
+
 **Route**: api/url/create
 
 **Description**: Submit any URL and get a standardized, shortened URL back.
@@ -80,6 +83,8 @@ Response Code 200
     "tiny url":"http://tiny.38"
  }"
 ```
+
+---
 
 **Route**: api/url/update
 
@@ -105,9 +110,11 @@ Response Code 200
 ```
 **Sample Response**: 200 OK 
 
+---
+
 **Route**: api/url/redirect
 
-**Description**: Navigate to a shortened URL redirects to the appropriate target URL based on the device type (mobile, tablet, desktop) of the user navigating to the shortened URL.
+**Description**: Navigate to a shortened URL, redirecting to the appropriate target URL based on the device type (mobile, tablet, desktop) of the user.
 
 **Verb**: GET
 
