@@ -27,3 +27,99 @@ Run the tests:
 ```
 $ vendor/bin/phpunit tests/ApiBundle
 ```
+
+### Using the API
+
+
+**Route**: api/url/list
+
+**Description**: Retrieves a list of all existing shortened URLs, including time since creation and target URLs (each with number of redirects)
+
+**Verb**: GET
+
+**Required Parameters**: NONE!
+
+**Sample Response**:
+
+```
+Response Code 200
+
+"[{
+    "tinyUrl":"http:\/\/tiny.cj",
+    "timeStamp":"8 months, 29 days, and 19 hours and 43 minutes ago",
+    "desktopRedirects":0,
+    "tabletRedirects":0,
+    "mobileRedirects":0
+},
+{
+    "tinyUrl":"http:\/\/tiny.9m",
+    "timeStamp":"8 months, 28 days, and 19 hours and 43 minutes ago",
+    "desktopRedirects":0,
+    "tabletRedirects":0,
+    "mobileRedirects":0
+}]"
+```
+
+**Route**: api/url/create
+
+**Description**: Submit any URL and get a standardized, shortened URL back.
+
+**Verb**: POST
+
+**Required Parameters**: 
+
+```
+"{
+    "url":"http://my_very_long_testing_url_that_goes_on_forever_and_ever177798827272727"
+}"
+```
+**Sample Response**:
+
+```
+"{
+    "tiny url":"http://tiny.38"
+ }"
+```
+
+**Route**: api/url/update
+
+**Description**: Configure a shortened URL to redirect to different targets based on the device type (mobile, tablet, desktop) of the user navigating to the shortened URL.
+
+**Verb**: PUT
+
+**Required Parameters**: 
+
+```
+"{
+    "tiny_url":"http://tiny.38"
+}"
+```
+**Optional Parameters**: 
+
+```
+"{
+    "tablet_target":"http://tablet/testTarget",
+    "mobile_target":"http://mobile/testTarget",
+    "desktop_target":"http://desktop/testTarget"
+}"
+```
+**Sample Response**: 200 OK 
+
+**Route**: api/url/redirect
+
+**Description**: Navigate to a shortened URL redirects to the appropriate target URL based on the device type (mobile, tablet, desktop) of the user navigating to the shortened URL.
+
+**Verb**: GET
+
+**Required Parameters**: 
+
+```
+"{
+    "tiny_url":"http://tiny.cj"
+}"
+```
+
+**Sample Response**: 302 Redirect  
+
+
+
