@@ -93,7 +93,8 @@ class UrlController extends Controller
             $url = $urlRepository->findOneByTinyUrl($tinyUrl);
 
             $userAgent = $request->headers->get('User-Agent');
-            $redirectUrl = $this->getRedirectUrl($url, $userAgent);
+            $userAgentService = $this->get('user_agent_service');
+            $redirectUrl = $userAgentService->getRedirectUrl($url, $userAgent);
 
             $response = new RedirectResponse($redirectUrl);
             $response->headers->set('Content-Type', 'application/json'); 
@@ -150,32 +151,4 @@ class UrlController extends Controller
         return $response;
     }
 
-    /*
-    * Gets reirect url from user agent service
-    * Increments associated redirect count
-    * Returns redirect url
-    */
-    private function getRedirectUrl($url, $userAgent)
-    {
-        $redirectUrl = '';
-        $em = $this->getDoctrine()->getManager();
-        $userAgentService = $this->get('user_agent_service');
-
-        if($userAgentService->isMobile($userAgent) && !is_null($url->getTargetMobileUrl())){
-            $redirectUrl = $url->getTargetMobileUrl();
-            $url->incrementMobileRedirects();
-
-        } elseif ($userAgentService->isTablet($userAgent) && !is_null($url->getTargetTabletUrl())) {
-            $redirectUrl = $url->getTargetTabletUrl();
-            $url->incrementTabletRedirects();
-
-        } else {
-            $redirectUrl = $url->getTargetDesktopUrl();
-            $url->incrementDesktopRedirects();
-
-        }
-        $em->persist($url);
-        $em->flush();
-        return $redirectUrl;
-    }
 }

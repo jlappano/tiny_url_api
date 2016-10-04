@@ -58,5 +58,13 @@ class UserAgentServiceTest extends WebTestCase {
             $this->assertFalse($this->userAgentService->isTablet($userAgent));
         }
     }
+
+    public function testGetRedirectUrl() {
+        $urlRepository = static::$kernel->getContainer()->get('doctrine.orm.entity_manager')->getRepository('ApiBundle:Url');
+        $testUrl = $urlRepository->find(3);
+        $redirectUrl = $this->userAgentService->getRedirectUrl($testUrl, 'Mozilla/5.0 (Tablet; rv:26.0) Gecko/26.0 Firefox/26.0');
+        $this->assertEquals(1, $testUrl->getTabletRedirects());
+        $this->assertEquals($redirectUrl, $testUrl->getTargetTabletUrl());
+    }
     
 }

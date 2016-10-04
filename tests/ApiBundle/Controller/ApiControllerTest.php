@@ -74,7 +74,7 @@ class ApiControllerTest extends WebTestCase {
     public function testUpdateAction() {
         $route =  $this->getUrl('api_url_update~json');
         $requestContent = json_encode(array(
-            'tiny_url' => 'http://tiny.9m',
+            'tiny_url' => 'tiny.9m',
             'tablet_target' => 'http://tablet/testTarget',
             'mobile_target' => 'http://mobile/testTarget',
             'desktop_target' => 'http://desktop/testTarget'
@@ -85,7 +85,7 @@ class ApiControllerTest extends WebTestCase {
         $this->assertJsonResponse($response, 200);
 
         $urlRepository = $this->client->getContainer()->get('doctrine.orm.entity_manager')->getRepository('ApiBundle:Url');
-        $updatedUrl = $urlRepository->findOneByTinyUrl('http://tiny.9m');
+        $updatedUrl = $urlRepository->findOneByTinyUrl('tiny.9m');
         $this->assertEquals('http://desktop/testTarget', $updatedUrl->getTargetDesktopUrl());
         $this->assertEquals('http://mobile/testTarget', $updatedUrl->getTargetMobileUrl());
         $this->assertEquals('http://tablet/testTarget', $updatedUrl->getTargetTabletUrl());
@@ -106,7 +106,7 @@ class ApiControllerTest extends WebTestCase {
     public function testRedirectDefaultAction() {
         $route =  $this->getUrl('api_url_redirect~json');
         $requestContent = json_encode(array(
-            'tiny_url' => 'http://tiny.cj',
+            'tiny_url' => 'tiny.cj',
         ));
 
         $this->client->request('GET', $route, array(), array(), array('CONTENT_TYPE' => 'application/json'), $requestContent);
@@ -114,7 +114,7 @@ class ApiControllerTest extends WebTestCase {
         $targetUrl = $response->getTargetUrl();
         
         $urlRepository = $this->client->getContainer()->get('doctrine.orm.entity_manager')->getRepository('ApiBundle:Url');
-        $updatedUrl = $urlRepository->findOneByTinyUrl('http://tiny.cj');
+        $updatedUrl = $urlRepository->findOneByTinyUrl('tiny.cj');
         $this->assertEquals($targetUrl, $updatedUrl->getTargetDesktopUrl());
         $this->assertJsonResponse($response, 302);
     }
@@ -122,7 +122,7 @@ class ApiControllerTest extends WebTestCase {
     public function testRedirectDesktopAction() {
         $route =  $this->getUrl('api_url_redirect~json');
         $requestContent = json_encode(array(
-            'tiny_url' => 'http://tiny.cN',
+            'tiny_url' => 'tiny.cN',
         ));
 
         $this->client->request('GET', $route, array(), array(), array('CONTENT_TYPE' => 'application/json', 'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246'), $requestContent);
@@ -130,7 +130,7 @@ class ApiControllerTest extends WebTestCase {
         $targetUrl = $response->getTargetUrl();
 
         $urlRepository = $this->client->getContainer()->get('doctrine.orm.entity_manager')->getRepository('ApiBundle:Url');
-        $updatedUrl = $urlRepository->findOneByTinyUrl('http://tiny.cN');
+        $updatedUrl = $urlRepository->findOneByTinyUrl('tiny.cN');
 
         $this->assertEquals(1, $updatedUrl->getDesktopRedirects());
         $this->assertEquals($targetUrl, $updatedUrl->getTargetDesktopUrl());
@@ -140,7 +140,7 @@ class ApiControllerTest extends WebTestCase {
     public function testRedirectMobileAction() {
         $route =  $this->getUrl('api_url_redirect~json');
         $requestContent = json_encode(array(
-            'tiny_url' => 'http://tiny.cN',
+            'tiny_url' => 'tiny.cN',
         ));
 
         $this->client->request('GET', $route, array(), array(), array('CONTENT_TYPE' => 'application/json', 'HTTP_USER_AGENT' => 'Mozilla/5.0 (Linux; U; Android 4.0.3; ko-kr; LG-L160L Build/IML74K) AppleWebkit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30'), $requestContent);
@@ -148,7 +148,7 @@ class ApiControllerTest extends WebTestCase {
         $targetUrl = $response->getTargetUrl();
 
         $urlRepository = $this->client->getContainer()->get('doctrine.orm.entity_manager')->getRepository('ApiBundle:Url');
-        $updatedUrl = $urlRepository->findOneByTinyUrl('http://tiny.cN');
+        $updatedUrl = $urlRepository->findOneByTinyUrl('tiny.cN');
 
         $this->assertEquals(1, $updatedUrl->getMobileRedirects());
         $this->assertEquals($targetUrl, $updatedUrl->getTargetMobileUrl());        
@@ -158,7 +158,7 @@ class ApiControllerTest extends WebTestCase {
     public function testRedirectTabletAction() {
         $route =  $this->getUrl('api_url_redirect~json');
         $requestContent = json_encode(array(
-            'tiny_url' => 'http://tiny.cN',
+            'tiny_url' => 'tiny.cN',
         ));
 
         $this->client->request('GET', $route, array(), array(), array('CONTENT_TYPE' => 'application/json', 'HTTP_USER_AGENT' => 'Mozilla/5.0 (Tablet; rv:26.0) Gecko/26.0 Firefox/26.0'), $requestContent);
@@ -166,7 +166,7 @@ class ApiControllerTest extends WebTestCase {
         $targetUrl = $response->getTargetUrl();
 
         $urlRepository = $this->client->getContainer()->get('doctrine.orm.entity_manager')->getRepository('ApiBundle:Url');
-        $updatedUrl = $urlRepository->findOneByTinyUrl('http://tiny.cN');
+        $updatedUrl = $urlRepository->findOneByTinyUrl('tiny.cN');
 
         $this->assertEquals(1, $updatedUrl->getTabletRedirects());
         $this->assertEquals($targetUrl, $updatedUrl->getTargetTabletUrl());        

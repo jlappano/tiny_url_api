@@ -40,11 +40,10 @@ class TinyUrlService
 
     public function decode($str)
     {
-        $num = 0;
-        $len = strlen($str);
-        for ($i = 6; $i < $len; $i++) {
-            $num = $num * $this->base + strpos($this->alphabet, $str[$i]);
+        $url = $this->doctrine->getRepository('ApiBundle:Url')->findOneByTinyUrl($str);
+        if(empty($url)){
+            return '';
         }
-        return $num;
+        return $url->getHash();
     }
 }

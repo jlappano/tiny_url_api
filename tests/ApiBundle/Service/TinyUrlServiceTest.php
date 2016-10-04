@@ -15,16 +15,22 @@ class TinyUrlServiceTest extends WebTestCase {
     }
 
     public function testEncode() {
-        $this->assertEquals(
-            $this->urlService->encode(17772202030033),
-            'http://tiny.qQ_TRh4x'
+        $fixtures = array('ApiBundle\DataFixtures\ORM\LoadUrlData');
+        $this->loadFixtures($fixtures);
+        $firstUrl = $this->urlService->encode(38282);
+        $secondUrl = $this->urlService->encode(38282);
+        $this->assertNotEquals(
+            $firstUrl,
+            $secondUrl
         );
     }
 
     public function testDecode() {
+        $fixtures = array('ApiBundle\DataFixtures\ORM\LoadUrlData');
+        $this->loadFixtures($fixtures);
         $this->assertEquals(
-            $this->urlService->decode('http://tiny.qQ_TRh4x'),
-            17772202030033
+            $this->urlService->decode('tiny.jLG'),
+            38282
         );
     }
     
