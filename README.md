@@ -28,6 +28,11 @@ Run the tests:
 $ vendor/bin/phpunit tests/ApiBundle
 ```
 
+Run the server:
+```
+$ php bin/console server:run
+```
+
 ### Using the API
 
 ---
@@ -46,14 +51,14 @@ $ vendor/bin/phpunit tests/ApiBundle
 Response Code 200
 
 "[{
-    "tinyUrl":"http:\/\/tiny.cj",
+    "tinyUrl":"tiny.cj",
     "timeStamp":"8 months, 29 days, and 19 hours and 43 minutes ago",
     "desktopRedirects":0,
     "tabletRedirects":0,
     "mobileRedirects":0
 },
 {
-    "tinyUrl":"http:\/\/tiny.9m",
+    "tinyUrl":"tiny.9m",
     "timeStamp":"8 months, 28 days, and 19 hours and 43 minutes ago",
     "desktopRedirects":0,
     "tabletRedirects":0,
@@ -80,7 +85,7 @@ Response Code 200
 
 ```
 "{
-    "tiny url":"http:\/\/tiny.38"
+    "tiny url":"tiny.38"
  }"
 ```
 
@@ -96,7 +101,7 @@ Response Code 200
 
 ```
 "{
-    "tiny_url":"http:\/\/tiny.38"
+    "tiny_url":"tiny.38"
 }"
 ```
 **Optional Parameters**: 
@@ -122,7 +127,7 @@ Response Code 200
 
 ```
 "{
-    "tiny_url":"http:\/\/tiny.cj"
+    "tiny_url":"tiny.cj"
 }"
 ```
 
