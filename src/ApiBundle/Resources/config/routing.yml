@@ -1,22 +1,33 @@
-# List
+# API List
 api_url_list~json:
-    path:       /url/list
+    path:       /api/url/list
     defaults:   { _controller: ApiBundle:Url:list }
     methods:    [GET]
 
-# Redirect
+# API Redirect
 api_url_redirect~json:
-    path:       /url/redirect
+    path:       /api/url/redirect
     defaults:   { _controller: ApiBundle:Url:redirect }
     methods:    [GET]
 
-# Simple CRUD Actions
+# API Simple CRUD Actions
 api_url_create~json:
-    path:       /url/create
+    path:       /api/url/create
     defaults:   { _controller: ApiBundle:Url:create }
     methods:    [POST]
 
 api_url_update~json:
-    path:       /url/update
+    path:       /api/url/update
     defaults:   { _controller: ApiBundle:Url:update }
     methods:    [PUT]
+
+#Browser actions
+redirect:
+    path:       /{tinyUrl}
+    defaults:   { _controller: ApiBundle:Default:redirect }
+    methods:    [GET]
+
+index:
+    path:       /
+    defaults:   { _controller: ApiBundle:Default:index }
+    methods:    [GET]

@@ -24,9 +24,9 @@ class LoadUrlData implements FixtureInterface, ContainerAwareInterface
     public function load(ObjectManager $manager)
     {
         $urlContent = array(
-            array('timeStamp' => '2016-01-01', 'hashKey' => 473, 'targetDesktop' => 'http://desktopUrl/1239847473'),
-            array('timeStamp' => '2016-01-02', 'hashKey' => 373, 'targetDesktop' => 'http://desktopUrl/2293847373','targetTablet' => 'http://tabletUrl/2293847373'),
-            array('timeStamp' => '2016-01-03', 'hashKey' => 497, 'targetDesktop' => 'http://desktopUrl/3938130497','targetTablet' => 'http://tabletUrl/3938130497','targetMobile' => 'http://mobileUrl/3938130497'),
+            array('timeStamp' => '2016-01-01', 'hashKey' => 473, 'targetDesktop' => 'https://www.youtube.com/'),
+            array('timeStamp' => '2016-01-02', 'hashKey' => 373, 'targetDesktop' => 'https://www.youtube.com/','targetTablet' => 'http://tabletUrl/2293847373'),
+            array('timeStamp' => '2016-01-03', 'hashKey' => 497, 'targetDesktop' => 'https://www.youtube.com/','targetTablet' => 'http://tabletUrl/3938130497','targetMobile' => 'http://mobileUrl/3938130497'),
             array('timeStamp' => '2016-01-04', 'hashKey' => 66, 'targetDesktop' => 'http://desktopUrl/423413566','targetTablet' => 'http://tabletUrl/423413566','targetMobile' => 'http://mobileUrl/423413566'),
             array('timeStamp' => '2016-01-05', 'hashKey' => 8678, 'targetDesktop' => 'http://desktopUrl/58678678678','targetMobile' => 'http://mobileUrl/58678678678'),
             array('timeStamp' => '2016-01-06', 'hashKey' => 23455345, 'targetDesktop' => 'http://desktopUrl/623423423455345','targetMobile' => 'http://mobileUrl/623423423455345'),

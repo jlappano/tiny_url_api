@@ -7,8 +7,6 @@ use Liip\FunctionalTestBundle\Test\WebTestCase;
 class ApiControllerTest extends WebTestCase {
 
     private $client;
-    private $expectedTinyUrl;
-    private $expectedUpdatedUrl;
 
     public function setUp(){
         $this->client = static::createClient();

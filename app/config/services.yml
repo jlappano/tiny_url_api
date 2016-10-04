@@ -10,3 +10,4 @@ services:
 
     user_agent_service:
        class: ApiBundle\Service\UserAgentService
+       arguments: [ '@doctrine' ]
