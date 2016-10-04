@@ -346,7 +346,7 @@ class Url
      */
     public function generateUniqueHash()
     {
-        return intval(uniqid());
+        return mt_rand(100, 100000);
     }
 
 }

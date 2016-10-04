@@ -12,7 +12,6 @@ class ApiControllerTest extends WebTestCase {
 
     public function setUp(){
         $this->client = static::createClient();
-        $this->expectedTinyUrl = '{"tiny url":"http:\/\/tiny.38"}';
         $fixtures = array('ApiBundle\DataFixtures\ORM\LoadUrlData');
         $this->loadFixtures($fixtures);
     }
@@ -45,7 +44,7 @@ class ApiControllerTest extends WebTestCase {
         $this->assertArrayHasKey('mobileRedirects', $firstEntry);
     }
 
-    //1. User should be able to submit any URL and get a standardized, shortened URL back
+    //1. User should be able to submit any URL and get a standardized, shortened URL back. No repeats!!
     public function testCreateAction() {
         $route =  $this->getUrl('api_url_create~json');
         $requestContent = json_encode(array('url' => 'http://my_very_long_testing_url_why_does_it_evenhavetobethinslonghelpme177798827272727'));
@@ -53,9 +52,13 @@ class ApiControllerTest extends WebTestCase {
         $this->client->request('POST', $route, array(), array(), array('CONTENT_TYPE' => 'application/json'), $requestContent);
         $response = $this->client->getResponse();
         $content = $response->getContent();
-        
-        $this->assertJsonResponse($response, 200);
-        $this->assertEquals($this->expectedTinyUrl, $content);
+        $firstUrl = $content;
+
+        $this->client->request('POST', $route, array(), array(), array('CONTENT_TYPE' => 'application/json'), $requestContent);
+        $response = $this->client->getResponse();
+        $content = $response->getContent();
+        $secondUrl = $content;
+        $this->assertNotEquals($firstUrl, $secondUrl);
     }
 
     //1.a User should get an error if url is not supplied

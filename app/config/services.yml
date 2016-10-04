@@ -6,6 +6,7 @@ parameters:
 services:
     url_service:
        class: ApiBundle\Service\TinyUrlService
+       arguments: [ '@doctrine' ]
 
     user_agent_service:
        class: ApiBundle\Service\UserAgentService

@@ -2,6 +2,8 @@
 
 namespace ApiBundle\Service;
 
+use Doctrine\Bundle\DoctrineBundle\Registry;
+
 /**
  * Class TinyUrlService
  * @package Relay\RiseBundle\Service
@@ -14,14 +16,20 @@ class TinyUrlService
 {
     private $alphabet;
     private $base;
+    private $doctrine;
 
-    public function __construct() {
+    public function __construct(Registry $doctrine) {
         $this->alphabet = '23456789bcdfghjkmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ-_';
         $this->base = 51;
+        $this->doctrine = $doctrine;
     }
 
     public function encode($num)
     {
+        while (!empty($this->doctrine->getRepository('ApiBundle:Url')->findOneByHash($num))) {
+            $num = mt_rand(100, 100000);
+        }
+
         $str = '';
         while ($num > 0) {
             $str = $this->alphabet[($num % $this->base)] . $str;
