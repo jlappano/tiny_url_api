@@ -133,5 +133,17 @@ Response Code 200
 
 **Sample Response**: 302 Redirect  
 
+### Redirecting From the Broswer
+
+With the local server running, enter existing Tiny Url into the browser window. The url below will redirect to 'http://boingboing.net/' on desktops, 'https://news.ycombinator.com/' on tablets, and 'https://www.google.com/' on mobile devices:
+
+```
+http://localhost:8000/tiny.3k
+```
+
+
+
+
+
 
 
