@@ -26,8 +26,9 @@ class TinyUrlService
 
     public function encode($num)
     {
+        //generate num unique to DB
         while (!empty($this->doctrine->getRepository('ApiBundle:Url')->findOneByHash($num))) {
-            $num = mt_rand(100, 100000);
+            $num = mt_rand(10000, 1000000);
         }
 
         $str = '';
